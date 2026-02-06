@@ -1,0 +1,89 @@
+body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #ffffff;
+    
+    background-image: url('lim2-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 100px;
+    /* padding: 20px;
+    margin-left: 120px; */
+}
+
+h2 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 20px;
+    margin-bottom: 40px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.content {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.profile-pic {
+    width: 300px;
+    height: auto;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+ul {
+    text-align: left;
+    margin-left: 200px;
+}
+
+.marquee-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    
+}
+
+.page-title {
+    text-align: center;
+    margin-top: 30px;
+}
+
+
+.projects-container {
+    display: flex;         
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 40px;
+}
+
+.project-box {
+    width: 200px;
+    height: 200px;
+    background-color: rgb(255, 207, 227);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 20px;
+}
+
+.jellyfish {
+    background-image: url(jellyfish.png);
+}
