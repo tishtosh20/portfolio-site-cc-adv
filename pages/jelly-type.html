@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    
+  <div id="sketch-container"></div>
+    <script>
+      
+      // function preload() {
+      //   font = loadFont('ArchivoBlack-Regular.ttf')
+      // } 
+
+        let font;
+        let points = [];
+        let points2 = [];
+        let points3 = [];
+        let r= 10
+        let angle = 0;
+
+function preload() {
+  font = loadFont("Oi-Regular.ttf");
+}
+
+        function setup() {
+  let canvas = createCanvas(600, 600);
+  points = font.textToPoints("Jellyfish", 30, 320, 70, {sampleFactor: 0.1});
+   points2 = font.textToPoints("Jellyfish", 30, 220, 70, {sampleFactor: 0.1});
+   points3 = font.textToPoints("Jellyfish", 35, 420, 70, {sampleFactor: 0.1});
+  //print(points)
+  angleMode(DEGREES)
+  canvas.parent('sketch-container');
+  textFont(font);
+  textSize(200)
+
+}
+
+function draw() {
+  background(92, 233, 255);
+  
+  let isNear = false;
+  
+  for (let i=0; i<points.length; i++) {
+   let d = dist(mouseX, mouseY, points[i].x, points[i].y);
+    
+    if ( d < 20) {
+      isNear= true
+      background(255, 179, 92)
+    }
+     
+    if (points[i ])
+    noStroke();
+    fill(255,150);
+    ellipse(points[i].x + r*sin(angle + i*10) , points[i].y, 15);
+  }
+
+  if (!isNear) {
+     angle += 20;
+  }
+
+  //top
+   for (let i=0; i<points2.length; i++) {
+      if (points2[i ])
+      noStroke()
+    ellipse(points2[i].x + r*sin(angle + i*10) , points2[i].y, 15);
+  }
+  
+//bottom
+   for (let i=0; i<points3.length; i++) {
+      if (points3[i ])
+      noStroke()
+    ellipse(points3[i].x + r*sin(angle + i*10) , points3[i].y, 15);
+  }
+
+  
+  
+}
+
+  </script>
+</body>
+</html>

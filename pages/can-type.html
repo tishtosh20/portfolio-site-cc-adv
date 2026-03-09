@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    
+  <div id="sketch-container"></div>
+    <script>
+      
+      let font;
+let cPts = [];
+let aPts = [];
+let nPts = [];
+let squash = 1;
+
+function preload() {
+  font = loadFont("Orbitron-Regular.ttf");
+}
+
+function setup() {
+  let canvas = createCanvas(600, 600);
+
+  let x = 260;
+  let size = 140;
+
+  cPts = font.textToPoints("C", x, 200, size, { sampleFactor: 0.25 });
+  aPts = font.textToPoints("A", x, 350, size, { sampleFactor: 0.25 });
+  nPts = font.textToPoints("N", x, 500, size, { sampleFactor: 0.25 });
+}
+
+function draw() {
+  background(220);
+  noStroke();
+  fill(0);
+
+  squash = mouseIsPressed ? 0.4 : 1;
+
+  drawLetter(cPts);
+  drawLetter(aPts);
+  drawLetter(nPts);
+}
+
+function drawLetter(pts) {
+  let center = height / 2;
+
+  for (let i = 0; i < pts.length; i++) {
+    let p = pts[i];
+
+
+    let y = center + (p.y - center) * squash;
+
+    rect(p.x, y, 5, 5);
+  }
+}
+
+
+
+  </script>
+</body>
+</html>

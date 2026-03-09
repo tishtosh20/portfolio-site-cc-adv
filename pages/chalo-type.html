@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    
+  <div id="sketch-container"></div>
+    <script>
+      
+        let font;
+let points = [];
+let points2 = [];
+let angle = 0;
+let r = 5;
+
+let pivotX;
+let pivotY;
+
+function preload() {
+  font = loadFont("EduSABeginner-VariableFont_wght.ttf");
+}
+
+function setup() {
+  let canvas = createCanvas(600, 600);
+  angleMode(DEGREES);
+
+  points = font.textToPoints("Chalo", 20, 260, 250, { sampleFactor: 0.1 });
+  
+  points2 = font.textToPoints("o", 420, 260, 250, { sampleFactor: 0.1 });
+
+  
+  let pointX = points[0].x;
+  let pointY = points[0].y;
+
+  
+  pivotX = pointX /2;
+
+  
+  pivotY = pointY/2;
+}
+
+function draw() {
+  background(30);
+
+  push();
+  translate(pivotX, pivotY);
+  rotate(10 * sin(angle));
+
+  //Chalo
+  for (let i = 0; i < points.length; i++) {
+    ellipse(points[i].x, points[i].y, 15);
+  }
+  
+//o
+  for (let i = 0; i < points2.length; i++) {
+
+    let d = dist(
+      mouseX - pivotX,
+      mouseY - pivotY,
+      points2[i].x,
+      points2[i].y );
+
+    let size = 15;
+    
+    if (d < 40) {
+      size = 30;
+      fill(0,255,0)
+    }
+
+    ellipse(points2[i].x, points2[i].y, size);
+  }
+
+  pop();
+
+  angle += 3;
+}
+ 
+  
+
+
+  </script>
+</body>
+</html>
