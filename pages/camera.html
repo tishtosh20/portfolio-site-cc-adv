@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    
+  <div id="sketch-container"></div>
+    <script>
+      
+    let faceMesh;
+let video;
+let faces = [];
+let options = { maxFaces: 1, refineLandmarks: false, flipHorizontal: false };
+
+let stareStartTime = 0;
+let staring = false;
+
+let boxW = 200;
+let boxH = 30;
+
+function preload() {
+  faceMesh = ml5.faceMesh(options);
+}
+
+function setup() {
+  let canvas = createCanvas(640, 480);
+
+  video = createCapture(VIDEO);
+  video.size(640, 480);
+  video.hide();
+
+  faceMesh.detectStart(video, gotFaces);
+}
+
+function draw() {
+  image(video, 0, 0, width, height);
+
+  let boxX = 210
+  let boxY = 160
+
+
+  fill(255);
+  textSize(24);
+  textAlign(CENTER);
+  text("Eye Contact Simulator", width / 2, 30);
+  
+  noFill();
+  stroke(255,0,0,100);
+  strokeWeight(2);
+  rect(boxX, boxY, boxW, boxH);
+
+  let stareDuration = 0;
+
+  if (faces.length > 0) {
+    let face = faces[0];
+
+    let leftEye = face.keypoints[33];
+    let rightEye = face.keypoints[263];
+
+    fill(255,0,0,100);
+    noStroke();
+    circle(leftEye.x, leftEye.y, 4);
+    circle(rightEye.x, rightEye.y, 4);
+
+    let leftInside = pointInBox(leftEye.x, leftEye.y, boxX, boxY, boxW, boxH);
+    let rightInside = pointInBox(rightEye.x, rightEye.y, boxX, boxY, boxW, boxH);
+
+    if (leftInside && rightInside) {
+      if (!staring) {
+        staring = true;
+        stareStartTime = millis();
+      }
+
+      stareDuration = (millis() - stareStartTime) / 1000;
+
+      //fill(255);
+    //  textSize(20);
+    //  textAlign(CENTER);
+    // text("Hold: " + nf(stareDuration, 1, 1) + "s", width / 2, 40);
+      
+    } else {
+      staring = false;
+      stareStartTime = 0;
+    }
+  } else {
+    staring = false;
+    stareStartTime = 0;
+  }
+
+  if (stareDuration >= 4) {
+    let extraTime = stareDuration - 4;
+    glitchWebcam(extraTime);
+    drawLookAwayText();
+  }
+}
+
+function glitchWebcam(extraTime) {
+  let glitchCount = int(map(extraTime, 0, 3, 8, 40, true));
+  let maxOffset = map(extraTime, 0, 3, 10, 60, true);
+  let maxSize = map(extraTime, 0, 3, 30, 100, true);
+
+  for (let i = 0; i < glitchCount; i++) {
+    let x1 = random(width);
+    let y1 = random(height);
+    let w = random(20, maxSize);
+    let h = random(10, maxSize / 2);
+
+    let x2 = x1 + random(-maxOffset, maxOffset);
+    let y2 = y1 + random(-maxOffset, maxOffset);
+
+    copy(x1, y1, w, h, x2, y2, w, h);
+  }
+
+  // red overlay
+  let redAlpha = map(extraTime, 0, 3, 40, 140, true);
+  fill(156, 40, 36, redAlpha);
+  noStroke();
+  rect(0, 0, width, height);
+}
+
+function drawLookAwayText() {
+  for (let i = 0; i < 10; i++) {
+    let x = random(width);
+    let y = random(height);
+
+    let size = random(12, 40);
+
+    fill(224, 145, 142); 
+    textSize(size);
+    textAlign(CENTER, CENTER);
+
+    text("LOOK AWAY", x, y);
+  }
+}
+
+function gotFaces(results) {
+  faces = results;
+}
+
+function pointInBox(px, py, bx, by, bw, bh) {
+  return px > bx && px < bx + bw && py > by && py < by + bh;
+}
+
+
+  </script>
+</body>
+</html>
